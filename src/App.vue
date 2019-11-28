@@ -8,14 +8,8 @@
 
     <GChart
       class="chart"
-      type="LineChart"
+      type="ColumnChart"
       :data="chartData"
-      :options="chartOptions"
-    />
-    <GChart
-      class="chart"
-      type="LineChart"
-      :data="testData"
       :options="chartOptions"
     />
   </div>
@@ -30,13 +24,8 @@ export default {
       generationmix: [],
       startDate: "",
       endDate: "",
-      testData: [
-        ['Year', 'Sales', 'Expenses', 'Profit'],
-        ['2014', 1000, 400, 200],
-        ['2015', 1170, 460, 250],
-        ['2016', 660, 1120, 300],
-        ['2017', 1030, 540, 350]
-      ],
+      searchedData: [],
+      searchedSortedData: [],
       chartData: [],
       chartOptions: {
         chart: {
@@ -69,7 +58,7 @@ export default {
     handelDataRequest(){
       fetch(`https://api.carbonintensity.org.uk/generation/${this.startDate}/${this.endDate}`)
       .then(request => request.json())
-      .then(data => console.log(data))
+      .then(data => this.searchedData = data)
     }
   }
 }
