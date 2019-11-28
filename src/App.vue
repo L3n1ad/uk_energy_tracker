@@ -1,20 +1,24 @@
 <template lang="html">
   <div class="chart">
-    <form v-on:submit.prevent="handelDataRequest">
-      <input placeholder="2019-01-20T12:00Z" type="text" name="" v-model="startDate">
-      <input placeholder="2019-01-21T12:00Z" value="2019-01-21T12:00Z" type="text" name="" v-model="endDate">
-      <input type="submit" name="" value="See Data">
-    </form>
-
+    <h1>Most Up To Date </h1>
     <GChart
       class="chart"
       type="ColumnChart"
       :data="chartData"
       :options="chartOptions"
     />
+    <h1>Search by date</h1>
+    <form v-on:submit.prevent="handelDataRequest">
+      <input placeholder="2019-01-20T12:00Z" type="datetime-local" name="" v-model="startDate">
+      <input placeholder="2019-01-21T12:00Z" value="2019-01-21T12:00Z" type="datetime-local" name="" v-model="endDate">
+      <input type="submit" name="" value="See Data">
+    </form>
+
     <GChart
+      style="height: 100%"
+      v-if="searchedSortedData.length > 0"
       class="chart"
-      type="ColumnChart"
+      type="AreaChart"
       :data="searchedSortedData"
       :options="chartOptions"
     />
@@ -37,7 +41,11 @@ export default {
       chartOptions: {
         chart: {
           title: "United Kingdom Energy Chart",
-          subtitle: "Fuel, Percentage"
+          hAxis:{title: 'Year', titleTextStyle:{
+            color:'red'
+          }},
+          subtitle: "Fuel, Percentage",
+          isStacked: "relative"
         }
       }
     }
@@ -88,13 +96,38 @@ export default {
       // firstArray.push(Object.keys(this.searchedData.data[0].generationmix))
       // console.log(this.searchedData.data[0]);
       this.searchedSortedData = result
+      console.log("data searched");
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
+@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+
+
   .chart {
-    max-height: 500px;
+    margin-top: 3em;
+
   }
+  h1{
+    text-align: center;
+    font-family: 'Lobster', cursive;
+    margin-top: 39px
+
+
+  }
+  form{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+
+  }
+  input{
+    padding: 4px;
+    font-family: 'Lobster', cursive;
+
+  }
+
+
 </style>
