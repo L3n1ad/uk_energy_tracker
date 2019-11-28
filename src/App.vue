@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="chart">
     <form v-on:submit.prevent="handelDataRequest">
-      <input type="text" name="" v-model="startDate">
-      <input type="text" name="" v-model="endDate">
+      <input placeholder="2019-01-20T12:00Z" type="text" name="" v-model="startDate">
+      <input placeholder="2019-01-21T12:00Z" value="2019-01-21T12:00Z" type="text" name="" v-model="endDate">
       <input type="submit" name="" value="See Data">
     </form>
 
@@ -12,6 +12,7 @@
       :data="chartData"
       :options="chartOptions"
     />
+    <p>{{this.searchedSortedData}}</p>
   </div>
 </template>
 
@@ -59,6 +60,18 @@ export default {
       fetch(`https://api.carbonintensity.org.uk/generation/${this.startDate}/${this.endDate}`)
       .then(request => request.json())
       .then(data => this.searchedData = data)
+      .then(() => this.sortSearchedData())
+    },
+    sortSearchedData(){
+      // debugger
+      const firstArray = ["Date"];
+      const firstGenerationmix = this.searchedData.data[0].generationmix;
+      for(let object of firstGenerationmix){
+        firstArray.push(object.fuel)
+      }
+      // firstArray.push(Object.keys(this.searchedData.data[0].generationmix))
+      // console.log(this.searchedData.data[0]);
+      this.searchedSortedData = firstArray
     }
   }
 }
