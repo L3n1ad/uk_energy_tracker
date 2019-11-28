@@ -1,28 +1,44 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+<template lang="html">
+  <div>
+    <p>{{generationmix}}</p>
+    <p>{{chartData}}</p>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  data(){
+    return {
+      originalData: [],
+      generationmix: [],
+      chartData: []
+    }
+  },
+  mounted(){
+    fetch('https://api.carbonintensity.org.uk/generation')
+    .then(response => response.json())
+    .then(data => this.originalData = data)
+
+    .then(() => this.getGenerationmix())
+    .then(() => this.sortChartData())
+  },
+  methods: {
+    getGenerationmix(){
+      this.generationmix = this.originalData.data.generationmix
+    },
+    sortChartData(){
+      const result = [];
+      for(let object of this.generationmix){
+        result.push(Object.values(object))
+      }
+      result.unshift(['Fuel', 'Percentage'])
+      this.chartData = result
+    }
+
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="css" scoped>
 </style>
