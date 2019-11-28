@@ -1,7 +1,23 @@
 <template lang="html">
-  <div>
-    <p>{{generationmix}}</p>
-    <p>{{chartData}}</p>
+  <div class="chart">
+    <form v-on:submit.prevent="handelDataRequest">
+      <input type="text" name="" v-model="startDate">
+      <input type="text" name="" v-model="endDate">
+      <input type="submit" name="" value="See Data">
+    </form>
+
+    <GChart
+      class="chart"
+      type="LineChart"
+      :data="chartData"
+      :options="chartOptions"
+    />
+    <GChart
+      class="chart"
+      type="LineChart"
+      :data="testData"
+      :options="chartOptions"
+    />
   </div>
 </template>
 
@@ -12,7 +28,22 @@ export default {
     return {
       originalData: [],
       generationmix: [],
-      chartData: []
+      startDate: "",
+      endDate: "",
+      testData: [
+        ['Year', 'Sales', 'Expenses', 'Profit'],
+        ['2014', 1000, 400, 200],
+        ['2015', 1170, 460, 250],
+        ['2016', 660, 1120, 300],
+        ['2017', 1030, 540, 350]
+      ],
+      chartData: [],
+      chartOptions: {
+        chart: {
+          title: "United Kingdom Energy Chart",
+          subtitle: "Fuel, Percentage"
+        }
+      }
     }
   },
   mounted(){
@@ -34,11 +65,18 @@ export default {
       }
       result.unshift(['Fuel', 'Percentage'])
       this.chartData = result
+    },
+    handelDataRequest(){
+      fetch(`https://api.carbonintensity.org.uk/generation/${this.startDate}/${this.endDate}`)
+      .then(request => request.json())
+      .then(data => console.log(data))
     }
-
   }
 }
 </script>
 
 <style lang="css" scoped>
+  .chart {
+    max-height: 500px;
+  }
 </style>
