@@ -12,7 +12,13 @@
       :data="chartData"
       :options="chartOptions"
     />
-    <p>{{this.searchedSortedData}}</p>
+    <GChart
+      class="chart"
+      type="ColumnChart"
+      :data="searchedSortedData"
+      :options="chartOptions"
+    />
+    <!-- <p>{{this.searchedSortedData}}</p> -->
   </div>
 </template>
 
@@ -64,14 +70,24 @@ export default {
     },
     sortSearchedData(){
       // debugger
-      const firstArray = ["Date"];
+      const result = []
+      const labelsArray = ["Date"];
       const firstGenerationmix = this.searchedData.data[0].generationmix;
       for(let object of firstGenerationmix){
-        firstArray.push(object.fuel)
+        labelsArray.push(object.fuel)
+      }
+      result.push(labelsArray);
+      for(let dataSet of this.searchedData.data){
+        const dataArray = [];
+        dataArray.push(dataSet.from);
+        for(let generationmix of dataSet.generationmix){
+          dataArray.push(generationmix.perc);
+        }
+        result.push(dataArray);
       }
       // firstArray.push(Object.keys(this.searchedData.data[0].generationmix))
       // console.log(this.searchedData.data[0]);
-      this.searchedSortedData = firstArray
+      this.searchedSortedData = result
     }
   }
 }
