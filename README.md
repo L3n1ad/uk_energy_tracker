@@ -1,6 +1,6 @@
 # energy_mix_lab
 
-The app is an energy tracker which displayes a bar chart where with energy percentage on the current day, it also can get that data depending on user input. If the user chooses a time period the app will get the data from the time period and displays the energy percentage of each sectior within the time period on the line chart. The app has minimul styling and depending how big the time period is fetching data can be slow. All the data is fetched from an external api: https://carbon-intensity.github.io/
+The app is an energy tracker which displayes a bar chart with the most up to date information about energy precentage(the data updates in every 30 minutes), it also can get data depending on user input. If the user chooses a time period the app will get the data for that time period and displays the energy percentage of each sectior on the line chart. The app has minimal styling and depending how big the time period is fetching data can be slow. All the data is fetched from an external api: https://carbon-intensity.github.io/
 
 ## Project setup
 ```
